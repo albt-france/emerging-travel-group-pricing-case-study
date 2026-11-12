@@ -1,0 +1,11 @@
+partner_id,partner_type,country,tier,sales_before_eur,sales_now_eur,change_eur,change_pct
+API-002,API partner,GB,Top partner,33009.0,0.0,-33009.0,-1.0
+WL-005,White label,IT,Top partner,9651.0,3427.0,-6224.0,-0.645
+AG-FR-0126,Agency,FR,Top partner,8754.0,3483.0,-5270.0,-0.602
+API-017,API partner,AE,Top partner,17993.0,12847.0,-5146.0,-0.286
+API-025,API partner,MX,Top partner,16817.0,12255.0,-4562.0,-0.271
+AG-FR-0114,Agency,FR,Top partner,5647.0,1169.0,-4478.0,-0.793
+API-013,API partner,IN,Top partner,23669.0,19328.0,-4340.0,-0.183
+B2C-FR,B2C,FR,Standard,24491.0,20317.0,-4174.0,-0.17
+WL-011,White label,DE,Top partner,11907.0,7769.0,-4138.0,-0.348
+AG-IN-0051,Agency,IN,Standard,5742.0,1895.0,-3847.0,-0.67

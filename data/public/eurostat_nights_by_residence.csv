@@ -1,0 +1,245 @@
+year,residence_code,residence,nights
+2019,EUR,Europe,2650835265
+2023,EUR,Europe,2719944458
+2024,EUR,Europe,2773919301
+2025,EUR,Europe,2869940982
+2019,BE,Belgium,66762853
+2023,BE,Belgium,68078173
+2024,BE,Belgium,69381456
+2025,BE,Belgium,71130440
+2019,BG,Bulgaria,14646170
+2023,BG,Bulgaria,18227475
+2024,BG,Bulgaria,18677853
+2025,BG,Bulgaria,19608481
+2019,CZ,Czechia,54022809
+2023,CZ,Czechia,57722886
+2024,CZ,Czechia,57547155
+2025,CZ,Czechia,59654560
+2019,DK,Denmark,42145795
+2023,DK,Denmark,45339718
+2024,DK,Denmark,45802437
+2025,DK,Denmark,46387400
+2019,DE,Germany,623409040
+2023,DE,Germany,643012413
+2024,DE,Germany,655376648
+2025,DE,Germany,666073573
+2019,EE,Estonia,4868515
+2023,EE,Estonia,5419905
+2024,EE,Estonia,5461618
+2025,EE,Estonia,5493454
+2019,IE,Ireland,33581660
+2023,IE,Ireland,37379928
+2024,IE,Ireland,39853944
+2025,IE,Ireland,41398743
+2019,EL,Greece,27749508
+2023,EL,Greece,28860034
+2024,EL,Greece,30014188
+2025,EL,Greece,31231459
+2019,ES,Spain,202874005
+2023,ES,Spain,216509878
+2024,ES,Spain,217068303
+2025,ES,Spain,221128681
+2019,FR,France,382115634
+2023,FR,France,395553254
+2024,FR,France,393204076
+2025,FR,France,401572328
+2019,HR,Croatia,10282108
+2023,HR,Croatia,12005206
+2024,HR,Croatia,13029455
+2025,HR,Croatia,14059110
+2019,IT,Italy,264413814
+2023,IT,Italy,259531756
+2024,IT,Italy,261044424
+2025,IT,Italy,283761570
+2019,CY,Cyprus,2408858
+2023,CY,Cyprus,2842983
+2024,CY,Cyprus,3111119
+2025,CY,Cyprus,3267812
+2019,LV,Latvia,4047981
+2023,LV,Latvia,4511813
+2024,LV,Latvia,4769823
+2025,LV,Latvia,5087091
+2019,LT,Lithuania,8385960
+2023,LT,Lithuania,10222521
+2024,LT,Lithuania,10493619
+2025,LT,Lithuania,10338607
+2019,LU,Luxembourg,3988106
+2023,LU,Luxembourg,4278762
+2024,LU,Luxembourg,4533253
+2025,LU,Luxembourg,4603926
+2019,HU,Hungary,29750713
+2023,HU,Hungary,29422867
+2024,HU,Hungary,30914010
+2025,HU,Hungary,32071460
+2019,MT,Malta,1484060
+2023,MT,Malta,1975080
+2024,MT,Malta,2071315
+2025,MT,Malta,2184341
+2019,NL,Netherlands,158679335
+2023,NL,Netherlands,178077136
+2024,NL,Netherlands,181072966
+2025,NL,Netherlands,181766278
+2019,AT,Austria,67731227
+2023,AT,Austria,68024337
+2024,AT,Austria,71106807
+2025,AT,Austria,73218283
+2019,PL,Poland,111497259
+2023,PL,Poland,119169800
+2024,PL,Poland,127705876
+2025,PL,Poland,139448465
+2019,PT,Portugal,35729466
+2023,PT,Portugal,40033985
+2024,PT,Portugal,41286017
+2025,PT,Portugal,43454294
+2019,RO,Romania,39960045
+2023,RO,Romania,44976873
+2024,RO,Romania,46550335
+2025,RO,Romania,47677482
+2019,SI,Slovenia,14937811
+2023,SI,Slovenia,15868681
+2024,SI,Slovenia,16200451
+2025,SI,Slovenia,16564763
+2019,SK,Slovakia,20645096
+2023,SK,Slovakia,20667841
+2024,SK,Slovakia,21262399
+2025,SK,Slovakia,22359866
+2019,FI,Finland,28588050
+2023,FI,Finland,27916026
+2024,FI,Finland,27657713
+2025,FI,Finland,27703773
+2019,SE,Sweden,73438333
+2023,SE,Sweden,69392349
+2024,SE,Sweden,68940150
+2025,SE,Sweden,71613632
+2019,INT_EU27_2020,Intra-EU27 (from 2020),2328144214
+2023,INT_EU27_2020,Intra-EU27 (from 2020),2425021680
+2024,INT_EU27_2020,Intra-EU27 (from 2020),2464137410
+2025,INT_EU27_2020,Intra-EU27 (from 2020),2542859872
+2019,EU27_2020_FOR,EU27 countries (from 2020) except reporting country,813288512
+2023,EU27_2020_FOR,EU27 countries (from 2020) except reporting country,858385134
+2024,EU27_2020_FOR,EU27 countries (from 2020) except reporting country,894411502
+2025,EU27_2020_FOR,EU27 countries (from 2020) except reporting country,936898592
+2019,EFTA,European Free Trade Association,62201362
+2023,EFTA,European Free Trade Association,63103470
+2024,EFTA,European Free Trade Association,64885858
+2025,EFTA,European Free Trade Association,68511141
+2019,IS,Iceland,1543284
+2023,IS,Iceland,1979931
+2024,IS,Iceland,1953653
+2025,IS,Iceland,2002917
+2019,CH_LI,Switzerland and Liechtenstein,40981011
+2023,CH_LI,Switzerland and Liechtenstein,43675484
+2024,CH_LI,Switzerland and Liechtenstein,44824964
+2025,CH_LI,Switzerland and Liechtenstein,46888031
+2019,NO,Norway,19677067
+2023,NO,Norway,17448056
+2024,NO,Norway,18107240
+2025,NO,Norway,19620193
+2019,UK,United Kingdom,184029715
+2023,UK,United Kingdom,182828392
+2024,UK,United Kingdom,190204615
+2025,UK,United Kingdom,198489663
+2019,TR,Türkiye,5420450
+2023,TR,Türkiye,7056330
+2024,TR,Türkiye,9077633
+2025,TR,Türkiye,10454742
+2019,UA,Ukraine,10781352
+2023,UA,Ukraine,13382197
+2024,UA,Ukraine,14361213
+2025,UA,Ukraine,16127853
+2019,RU,Russia,37348290
+2023,RU,Russia,5294583
+2024,RU,Russia,5176920
+2025,RU,Russia,5703487
+2019,EUR_OTH,Other European countries (aggregate changing according to the context),22909252
+2023,EUR_OTH,Other European countries (aggregate changing according to the context),23257769
+2024,EUR_OTH,Other European countries (aggregate changing according to the context),26075657
+2025,EUR_OTH,Other European countries (aggregate changing according to the context),27794229
+2019,AFR,Africa,10711087
+2023,AFR,Africa,10189708
+2024,AFR,Africa,11310784
+2025,AFR,Africa,12865495
+2019,ZA,South Africa,1556617
+2023,ZA,South Africa,1490233
+2024,ZA,South Africa,1398814
+2025,ZA,South Africa,1456494
+2019,AFR_OTH,Other African countries (aggregate changing according to the context),9154466
+2023,AFR_OTH,Other African countries (aggregate changing according to the context),8699473
+2024,AFR_OTH,Other African countries (aggregate changing according to the context),9911967
+2025,AFR_OTH,Other African countries (aggregate changing according to the context),11408999
+2019,AME,America,108929598
+2023,AME,America,127420990
+2024,AME,America,141490522
+2025,AME,America,155448491
+2019,AME_N,Northern America,80674478
+2023,AME_N,Northern America,97366208
+2024,AME_N,Northern America,108720335
+2025,AME_N,Northern America,118792683
+2019,CA,Canada,11056126
+2023,CA,Canada,13577232
+2024,CA,Canada,15477779
+2025,CA,Canada,16843096
+2019,US,United States,67660698
+2023,US,United States,81097249
+2024,US,United States,90259614
+2025,US,United States,98916009
+2019,AME_N_OTH,Other Northern American countries,1957679
+2023,AME_N_OTH,Other Northern American countries,2691728
+2024,AME_N_OTH,Other Northern American countries,2982943
+2025,AME_N_OTH,Other Northern American countries,3033577
+2019,AME_C_S,Central and South America,28255096
+2023,AME_C_S,Central and South America,30054782
+2024,AME_C_S,Central and South America,32770186
+2025,AME_C_S,Central and South America,36655809
+2019,BR,Brazil,11632173
+2023,BR,Brazil,11664292
+2024,BR,Brazil,12729968
+2025,BR,Brazil,13838177
+2019,AME_C_S_OTH,Other Central or South American countries,16622927
+2023,AME_C_S_OTH,Other Central or South American countries,18390489
+2024,AME_C_S_OTH,Other Central or South American countries,20040218
+2025,AME_C_S_OTH,Other Central or South American countries,22817629
+2019,ASI,Asia,83546885
+2023,ASI,Asia,62870829
+2024,ASI,Asia,70692648
+2025,ASI,Asia,81569845
+2019,CN,China,22215397
+2023,CN,China,9860751
+2024,CN,China,14796749
+2025,CN,China,16773640
+2019,JP,Japan,10001951
+2023,JP,Japan,4671036
+2024,JP,Japan,5850682
+2025,JP,Japan,6421770
+2019,KR,South Korea,7670121
+2023,KR,South Korea,6278965
+2024,KR,South Korea,6934510
+2025,KR,South Korea,7192836
+2019,ASI_OTH,Other Asian countries (aggregate changing according to the context),43659410
+2023,ASI_OTH,Other Asian countries (aggregate changing according to the context),42060080
+2024,ASI_OTH,Other Asian countries (aggregate changing according to the context),43110706
+2025,ASI_OTH,Other Asian countries (aggregate changing according to the context),51181597
+2019,OCE,Oceania,11677238
+2023,OCE,Oceania,14333013
+2024,OCE,Oceania,14031243
+2025,OCE,Oceania,15174124
+2019,AU,Australia,10165852
+2023,AU,Australia,12741957
+2024,AU,Australia,12374593
+2025,AU,Australia,13485907
+2019,OCE_OTH,Other Oceanian countries (aggregate changing according to the context),1511386
+2023,OCE_OTH,Other Oceanian countries (aggregate changing according to the context),1591051
+2024,OCE_OTH,Other Oceanian countries (aggregate changing according to the context),1656652
+2025,OCE_OTH,Other Oceanian countries (aggregate changing according to the context),1688216
+2019,DOM,Domestic country,1514855699
+2023,DOM,Domestic country,1566636546
+2024,DOM,Domestic country,1569725908
+2025,DOM,Domestic country,1605961280
+2019,WORLD,All countries of the world,2875121917
+2023,WORLD,All countries of the world,2943255619
+2024,WORLD,All countries of the world,3021918467
+2025,WORLD,All countries of the world,3144708707
+2019,WRL_NAL,World - not allocated,9420240
+2023,WRL_NAL,World - not allocated,8492600
+2024,WRL_NAL,World - not allocated,10470381
+2025,WRL_NAL,World - not allocated,9704288

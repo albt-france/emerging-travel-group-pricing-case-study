@@ -1,0 +1,12 @@
+pandas
+numpy
+duckdb
+openpyxl
+pywin32
+matplotlib
+jinja2
+requests
+pypdf
+jupyter
+nbformat
+nbconvert

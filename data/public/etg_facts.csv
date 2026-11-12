@@ -1,0 +1,27 @@
+fact_id,metric,value,unit,scope,source_page,source_type,collected_on,note
+F01,Source markets,190,count (lower bound),Group,https://www.emergingtravel.com,live page,2026-11-12,"Shown as 190+. The About and Partners pages say 220+ source markets."
+F02,Accommodation options,3300000,count (lower bound),Group,https://www.emergingtravel.com,live page,2026-11-12,Shown as 3.3M+
+F03,Suppliers,350,count (lower bound),Group,https://www.emergingtravel.com,live page,2026-11-12,"Shown as 350+. RateHawk home page says 330+ suppliers."
+F04,Languages on product,32,count,Group,https://www.emergingtravel.com,live page,2026-11-12,
+F05,Channel managers,80,count (lower bound),Group,https://www.emergingtravel.com,live page,2026-11-12,Shown as 80+
+F06,Travel agents,110000,count (lower bound),RateHawk (B2B),https://www.emergingtravel.com,live page,2026-11-12,Shown as 110K+
+F07,Corporate clients,5000,count (lower bound),Roundtrip (corporate),https://www.emergingtravel.com,live page,2026-11-12,Shown as 5K+
+F08,Individual travelers,1300000,count (lower bound),ZenHotels (B2C),https://www.emergingtravel.com,live page,2026-11-12,Shown as 1.3M+
+F09,Direct properties,250000,count (lower bound),Extranet,https://www.emergingtravel.com,live page,2026-11-12,Shown as 250K+
+F10,API partners,1400,count (lower bound),Group,https://www.emergingtravel.com,live page,2026-11-12,"Shown as 1,400+"
+F11,Rates processed per second,360000,count (lower bound),Tech,https://www.emergingtravel.com,live page,2026-11-12,With a 50 ms response time
+F12,Search response time,50,ms,Tech,https://www.emergingtravel.com,live page,2026-11-12,
+F13,Support requests automated with LLMs,50,%,Support,https://www.emergingtravel.com,live page,2026-11-12,
+F14,Servers,1500,count (lower bound),Tech,https://www.emergingtravel.com,live page,2026-11-12,"Shown as 1,500+"
+F15,Bookings per week,130000,count (lower bound),Group,https://www.emergingtravel.com/partners,live page,2026-11-12,Shown as 130k+ bookings weekly
+F16,Partners (all types),120000,count (lower bound),Group,https://www.emergingtravel.com/partners,live page,2026-11-12,Trusted by 120k+ partners
+F17,Employees,3900,count (lower bound),Group,https://www.emergingtravel.com/about,live page,2026-11-12,"More than 3,900 employees"
+F18,Operating since,2010,year,Group,https://www.emergingtravel.com/about,live page,2026-11-12,
+F19,RateHawk partners,100000,count (lower bound),RateHawk (B2B),https://www.emergingtravel.com/brands,live page,2026-11-12,10 years on the market
+F20,ZenHotels served clients,1300000,count (lower bound),ZenHotels (B2C),https://www.emergingtravel.com/brands,live page,2026-11-12,11 years on the market
+F21,Roundtrip served clients,5000,count (lower bound),Roundtrip (corporate),https://www.emergingtravel.com/brands,live page,2026-11-12,Established 2022
+F22,RateHawk clients,220000,count (lower bound),RateHawk (B2B),https://www.ratehawk.com/,live page,2026-11-12,"Trusted by 220,000+ clients; differs from 110K+ agents on the group page (different definition)"
+F23,Airlines bookable,400,count,RateHawk (B2B),https://www.ratehawk.com/,live page,2026-11-12,Air tickets from 400 airlines
+F24,Transfer countries,165,count (lower bound),RateHawk (B2B),https://www.ratehawk.com/,live page,2026-11-12,
+F25,Annual turnover,2600000000,USD (lower bound),Group,https://web.archive.org/web/20260606170348/https://www.emergingtravel.com/,archived page (2026-06-06),2026-11-12,"Shown as $2.6BN+ annual turnover, 'reached in 2023'. The July 2024 archive showed $2BN+ for the same year."
+F26,Bookings per day (Extranet),40000,count,Extranet,https://web.archive.org/web/20260606170348/https://www.emergingtravel.com/,archived page (2026-06-06),2026-11-12,Not on the live page any more

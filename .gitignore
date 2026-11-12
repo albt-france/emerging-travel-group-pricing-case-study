@@ -1,0 +1,28 @@
+# Python / tools
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.duckdb
+*.duckdb.wal
+
+# Secrets and local notes (never published)
+.env
+DECISIONS.md
+notes/
+
+# Re-created by the scripts
+data/output/sim/bookings_clean.csv
+docs/_build/
+
+# Third-party web pages are not redistributed (re-create with src/collect_etg_site.py and collect_wayback.py)
+data/raw/etg_site/**/*.html
+data/raw/etg_site/**/*.txt
+
+# OS / Office temp files
+.DS_Store
+Thumbs.db
+~$*
+
+# Excel working folder used by src/build_excel.py
+.xltmp/

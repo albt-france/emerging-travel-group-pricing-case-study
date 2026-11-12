@@ -1,0 +1,13 @@
+partner_type,decision,requests,avg_claimed_gap_pct,discount_cost_eur,median_handling_hours,booked_rate
+API partner,Refuse,268,0.084,0.0,2.7,0.317
+API partner,Ask for details,83,0.088,0.0,1.1,0.47
+API partner,Switch supplier,66,0.064,0.0,2.9,0.742
+API partner,Discount,52,0.065,365.0,2.2,0.808
+Agency,Refuse,385,0.08,0.0,2.8,0.377
+Agency,Discount,207,0.062,2130.0,2.6,0.845
+Agency,Ask for details,130,0.094,0.0,1.0,0.462
+Agency,Switch supplier,72,0.084,0.0,2.2,0.75
+Corporate,Refuse,37,0.077,0.0,3.0,0.405
+Corporate,Discount,24,0.055,173.0,2.4,0.708
+Corporate,Ask for details,15,0.102,0.0,1.2,0.533
+Corporate,Switch supplier,8,0.088,0.0,4.0,1.0

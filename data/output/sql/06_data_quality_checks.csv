@@ -1,0 +1,12 @@
+check_name,booking_date,channel,extra_rows
+booking hour shifted,2026-10-12,API,4
+booking hour shifted,2026-10-15,API,3
+booking hour shifted,2026-10-17,API,3
+duplicate booking_id,2026-07-21,API,152
+missing net cost,2026-08-03,SUP-WS-A,23
+missing net cost,2026-08-04,SUP-WS-A,17
+missing net cost,2026-08-05,SUP-WS-A,18
+missing net cost,2026-08-06,SUP-WS-A,22
+missing net cost,2026-08-07,SUP-WS-A,9
+missing net cost,2026-08-08,SUP-WS-A,16
+missing net cost,2026-08-09,SUP-WS-A,19

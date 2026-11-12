@@ -1,0 +1,8 @@
+event,parameters
+E1_supplier,"{'supplier': 'SUP-BB-C', 'dest': 'ES', 'start': '2026-06-15', 'net_increase': 0.07}"
+E2_partner_lost,"{'ramp_start': '2026-09-07', 'end': '2026-09-14'}"
+E4_holiday,"{'market': 'AE', 'windows': [('2025-05-22', '2025-06-05'), ('2026-05-11', '2026-05-25')], 'uplift': 0.7}"
+E5_duplicates,"{'date': '2026-07-21', 'channel': 'API'}"
+E5_missing_cost,"{'supplier': 'SUP-WS-A', 'start': '2026-08-03', 'end': '2026-08-09'}"
+E5_timezone,"{'channel': 'API', 'start': '2026-10-12', 'end': '2026-10-18', 'shift_hours': 5}"
+E6_cancellations,"{'dest': 'EL', 'checkin_start': '2026-08-12', 'checkin_end': '2026-08-25', 'cancel_start': '2026-08-08', 'cancel_end': '2026-08-14', 'extra_rate': 0.3}"

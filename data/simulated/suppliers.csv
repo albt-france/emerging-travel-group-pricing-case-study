@@ -1,0 +1,28 @@
+supplier_id,supplier_name,supplier_type,coverage,payment_terms_days,line_of_business
+SUP-D-ES,Direct contracts ES,Direct,ES,30,Hotels
+SUP-D-IT,Direct contracts IT,Direct,IT,30,Hotels
+SUP-D-FR,Direct contracts FR,Direct,FR,30,Hotels
+SUP-D-EL,Direct contracts EL,Direct,EL,30,Hotels
+SUP-D-PT,Direct contracts PT,Direct,PT,30,Hotels
+SUP-D-DE,Direct contracts DE,Direct,DE,30,Hotels
+SUP-D-HR,Direct contracts HR,Direct,HR,30,Hotels
+SUP-D-TR,Direct contracts TR,Direct,TR,30,Hotels
+SUP-D-AE,Direct contracts AE,Direct,AE,30,Hotels
+SUP-D-TH,Direct contracts TH,Direct,TH,30,Hotels
+SUP-BB-A,Bedbank A,Bedbank,Global,15,Hotels
+SUP-BB-B,Bedbank B,Bedbank,Global,15,Hotels
+SUP-BB-C,Bedbank C,Bedbank,Global,20,Hotels
+SUP-BB-D,Bedbank D,Bedbank,Global,30,Hotels
+SUP-BB-E,Bedbank E,Bedbank,Global,15,Hotels
+SUP-BB-F,Bedbank F,Bedbank,Global,30,Hotels
+SUP-WS-A,Wholesaler A,Wholesaler,Southern Europe,45,Hotels
+SUP-WS-B,Wholesaler B,Wholesaler,Middle East,30,Hotels
+SUP-WS-C,Wholesaler C,Wholesaler,Asia,30,Hotels
+SUP-WS-D,Wholesaler D,Wholesaler,Western Europe,45,Hotels
+SUP-WS-E,Wholesaler E,Wholesaler,Eastern Mediterranean,30,Hotels
+SUP-TR-A,Transfer supplier A,Ground,Global,30,Transfers
+SUP-TR-B,Transfer supplier B,Ground,Global,30,Transfers
+SUP-CR-A,Car rental supplier A,Ground,Global,30,Car rentals
+SUP-CR-B,Car rental supplier B,Ground,Global,30,Car rentals
+SUP-FL-A,Flight consolidator A,Air,Global,7,Flights
+SUP-FL-B,Flight consolidator B,Air,Global,7,Flights

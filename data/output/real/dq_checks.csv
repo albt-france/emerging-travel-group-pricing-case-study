@@ -1,0 +1,10 @@
+check,rows,decision
+Rows in file,119390,"Matches the 119,390 bookings described in the paper"
+Fully duplicated rows,31994,"No booking ID in the file: identical rows can be real group bookings. Kept, flagged."
+Negative ADR,1,Excluded from price statistics
+"ADR above 1,000 EUR",1,"Outlier, excluded from price statistics"
+"Zero ADR, not complimentary",1279,"Kept in volumes, excluded from price statistics"
+Zero nights,715,Day use or error: excluded from nights and ADR
+Zero guests,180,Probable data-entry error: excluded
+Missing country,488,Shown as 'Unknown'
+Undefined channel,5,Grouped as 'Other'

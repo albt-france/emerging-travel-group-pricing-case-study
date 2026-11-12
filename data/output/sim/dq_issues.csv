@@ -1,0 +1,9 @@
+issue,date_from,date_to,scope,rows,effect,action
+Duplicated bookings,2026-07-21,2026-07-21,Channel API,152,"Day sales overstated by +27% (EUR 53,393)",Removed duplicates on booking_id; ask data engineering to fix the load
+Missing net cost,2026-08-03,2026-08-09,Supplier SUP-WS-A,124,"If read as zero, total margin rate shows 12.5% instead of 7.6%","Cost imputed with the supplier's markup of the previous 28 days, flagged; supplier invoice to be reconciled"
+Time-zone shift in a feed,2026-10-12,2026-10-18,Channel API,60,Timestamps +5 h: 60 bookings counted on the wrong day,Shifted back 5 h for the window; feed owner to send UTC
+"Sold below net cost (business alert, not a data error)",2025-05-01,2026-10-31,All bookings,1498,29% of them on SUP-FL-A,Sent to pricing: selling price below net cost after a supplier rate change or a discount
+Selling price <= 0,,,All bookings,0,None,Check passed
+Check-in before booking date,,,All bookings,0,None,Check passed
+Cancellation before booking date,,,All bookings,0,None,Check passed
+Missing FX rate,,,All bookings,0,None,Check passed
