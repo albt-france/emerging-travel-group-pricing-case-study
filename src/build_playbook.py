@@ -85,8 +85,8 @@ def daily_summary() -> str:
 
 def main() -> None:
     PB.mkdir(exist_ok=True)
-    (PB / "incident_cards.md").write_text(incident_cards(), encoding="utf-8")
-    (PB / "daily_summary.md").write_text(daily_summary(), encoding="utf-8")
+    (PB / "incident_cards.md").write_text(incident_cards(), encoding="utf-8", newline="\n")
+    (PB / "daily_summary.md").write_text(daily_summary(), encoding="utf-8", newline="\n")
     print("playbook written")
 
 

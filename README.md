@@ -4,7 +4,9 @@ Public market data, a real hotel-booking dataset and a simulated sales ledger, t
 root-cause analysis and a price-match decision process for a multi-brand B2B travel platform.
 
 **Report (PDF, 11 pages):** [docs/ETG_CommercialPricing_CaseStudy.pdf](docs/ETG_CommercialPricing_CaseStudy.pdf)  ·
-**Excel workbook:** [excel/ETG_Commercial_Pricing_Cockpit.xlsx](excel/ETG_Commercial_Pricing_Cockpit.xlsx)
+**Excel dashboard (view online):** [excel/](excel/README.md)  ·
+**Excel workbook as PDF:** [excel/ETG_Commercial_Pricing_Cockpit.pdf](excel/ETG_Commercial_Pricing_Cockpit.pdf)  ·
+**Excel file:** [excel/ETG_Commercial_Pricing_Cockpit.xlsx](excel/ETG_Commercial_Pricing_Cockpit.xlsx)
 
 > Independent case study based on public data · not affiliated with or endorsed by Emerging Travel Group.
 > Labels used everywhere: **PUBLIC DATA** (real, sourced), **REAL DATASET** (open hotel bookings, two hotels in
@@ -41,6 +43,10 @@ root-cause analysis and a price-match decision process for a multi-brand B2B tra
 ## The Excel workbook, sheet by sheet
 
 `excel/ETG_Commercial_Pricing_Cockpit.xlsx` (Excel 365 for Windows; built by `src/build_excel.py` through COM automation).
+No need to download it: the [Excel dashboard page](excel/README.md) shows every sheet, and the
+[PDF view](excel/ETG_Commercial_Pricing_Cockpit.pdf) prints the workbook.
+
+![Excel cockpit](docs/img/excel/cockpit_kpis.png)
 
 | Sheet | What it shows | Excel features |
 |---|---|---|

@@ -28,6 +28,8 @@ import win32com.client as win32
 from common import OUT, ROOT, SIM
 
 XLSX = ROOT / "excel" / "ETG_Commercial_Pricing_Cockpit.xlsx"
+XLSX_PDF = ROOT / "excel" / "ETG_Commercial_Pricing_Cockpit.pdf"
+IMG_XL = ROOT / "docs" / "img" / "excel"
 TMP = ROOT / ".xltmp"            # neutral working folder for Excel (deleted at the end)
 CONN = "ThisWorkbookDataModel"
 OUT_SIM = OUT / "sim"
@@ -135,32 +137,55 @@ def start_excel():
     from openpyxl import Workbook
 
     TMP.mkdir(parents=True, exist_ok=True)
-    seed = TMP / "seed.xlsx"
+    seed = TMP / f"seed_{int(time.time())}.xlsx"     # unique name: never attach to an older instance
     Workbook().save(seed)
     with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
                         r"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\excel.exe") as k:
         exe = winreg.QueryValue(k, None)
     env = dict(os.environ, TEMP=str(TMP), TMP=str(TMP))
-    subprocess.Popen([exe, "/x", str(seed)], env=env)
-    for _ in range(120):                      # wait until the workbook is registered
+    subprocess.Popen([exe, "/x", str(seed)], env=env)          # /x: a new, separate Excel process
+    # Wait until our Excel has opened the file (it then writes the "~$" owner file). Calling GetObject
+    # earlier would make COM open the file in another, hidden Excel with the default TEMP folder.
+    owner = TMP / ("~$" + seed.name)
+    for _ in range(240):
+        if owner.exists():
+            break
+        time.sleep(0.5)
+    for _ in range(120):                      # wait until the workbook is registered and Excel is ready
         try:
             wb = win32.GetObject(str(seed))
-            return wb.Application, wb
+            xl = wb.Application
+            if xl.Ready:
+                wb.Worksheets(1).Range("A1").Value = None   # first write succeeds only when Excel is idle
+                return xl, wb
         except Exception:
-            time.sleep(0.5)
+            pass
+        time.sleep(0.5)
     raise RuntimeError("Excel did not start")
 
 
 class Book:
     def __init__(self):
         self.xl, self.wb = start_excel()
+        try:
+            self._setup()
+        except Exception:
+            self.wb.Close(False)       # never leave an orphan Excel behind
+            self.xl.Quit()
+            raise
+
+    def _setup(self):
+        # Default font: through the workbook style when Excel accepts it, otherwise sheet by sheet (see sheet()).
+        try:
+            self.wb.Styles("Normal").Font.Name = "Segoe UI"
+            self.wb.Styles("Normal").Font.Size = 10
+        except Exception:
+            pass
         self.xl.Visible = False
         self.xl.DisplayAlerts = False
         self.xl.ScreenUpdating = False
         intl = self.xl.International
         _INTL.update(dec=intl[2], thou=intl[3], y=intl[18], d=intl[20])
-        self.wb.Styles("Normal").Font.Name = "Segoe UI"
-        self.wb.Styles("Normal").Font.Size = 10
         while self.wb.Worksheets.Count > 1:
             self.wb.Worksheets(self.wb.Worksheets.Count).Delete()
         # Guard: dynamic arrays (Excel 365) must be available, otherwise stop with a clear message.
@@ -185,6 +210,8 @@ class Book:
         ws.Activate()
         self.xl.ActiveWindow.DisplayGridlines = False
         ws.Cells.Interior.Color = C["page"]
+        ws.Cells.Font.Name = "Segoe UI"
+        ws.Cells.Font.Size = 10
         if tab:
             ws.Tab.Color = C[tab]
         return ws
@@ -288,9 +315,9 @@ def input_cell(rng):
         rng.Borders(b).Color = C["grey"]
 
 
-def red_if(rng, flag_ref: str, font_only: bool = False):
-    """Conditional format: red when the helper cell is TRUE (reference only, language-proof)."""
-    fc = rng.FormatConditions.Add(2, None, f"={flag_ref}")
+def red_if(rng, flag_ref: str, font_only: bool = False, equals: str | None = None):
+    """Conditional format: red when the helper cell is TRUE, or equals a word (no function name: language-proof)."""
+    fc = rng.FormatConditions.Add(2, None, f"={flag_ref}" if equals is None else f'={flag_ref}="{equals}"')
     if font_only:
         fc.Font.Color = C["red"]
         fc.Font.Bold = True
@@ -646,6 +673,7 @@ def build_pivots(bk: Book) -> None:
     nfmt(pt.AddDataField(pt.CubeFields("[Measures].[Sales EUR]")), "#,##0")
     nfmt(pt.AddDataField(pt.CubeFields("[Measures].[Margin %]")), "0.0%")
     pt.TableStyle2 = "PivotStyleLight16"
+    pt.GrandTotalName = "Grand total"
     pt.CompactLayoutRowHeader = "Month"
     pt.CompactLayoutColumnHeader = "Brand"
     pc2 = wb.PivotCaches().Create(2, wb.Connections(CONN), 6)
@@ -655,6 +683,7 @@ def build_pivots(bk: Book) -> None:
     pt2.CubeFields("[Calendar].[year_month]").Orientation = 2
     nfmt(pt2.AddDataField(pt2.CubeFields("[Measures].[Margin %]")), "0.0%")
     pt2.TableStyle2 = "PivotStyleLight16"
+    pt2.GrandTotalName = "Grand total"
     pt2.CompactLayoutRowHeader = "Supplier"
     pt2.CompactLayoutColumnHeader = "Month"
     slicers = [("[Bookings].[line_of_business]", "Line of business"), ("[Bookings].[client_country]", "Source market"),
@@ -675,6 +704,7 @@ def build_pivots(bk: Book) -> None:
     pt3.CubeFields("[FX].[currency]").Orientation = 2
     nfmt(pt3.AddDataField(pt3.CubeFields("[Measures].[Avg FX Units per EUR]")), "#,##0.000")
     pt3.TableStyle2 = "PivotStyleLight16"
+    pt3.GrandTotalName = "Grand total"
     pt3.CompactLayoutRowHeader = "Month"
     pt3.CompactLayoutColumnHeader = "Currency"
     footer(ws, 4, "Slicers on the right")
@@ -709,14 +739,14 @@ def build_alerts(bk: Book, d: dict) -> None:
     ws.Range("E5:F6").Font.Color = C["grey"]
     ws.Range("H5").Value = "Alerts in the period"
     ws.Range("H5").Font.Bold = True
-    ws.Range("I5").Formula2 = "=COUNTIF($L$37:$L$9999,TRUE)"
+    ws.Range("I5").Formula2 = '=COUNTIF($L$37:$L$9999,"ALERT")'
     ws.Range("I5").Font.Size = 14
     ws.Range("I5").Font.Bold = True
     ws.Range("I5").Font.Color = C["red"]
     ws.Range("H6").Value = "Alert days (spill)"
     n = len(d["dates"])
     first, last = 37, 37 + n - 1                     # table below the chart
-    ws.Range("I6").Formula2 = f'=IFERROR(TRANSPOSE(FILTER($B${first}:$B${last},$L${first}:$L${last})),"none")'
+    ws.Range("I6").Formula2 = f'=IFERROR(TRANSPOSE(FILTER($B${first}:$B${last},$L${first}:$L${last}="ALERT")),"none")'
     nfmt(area(ws.Range("I6"), 1, 20), "yyyy-mm-dd")
     area(ws.Range("I6"), 1, 20).Font.Color = C["red"]
 
@@ -742,8 +772,8 @@ def build_alerts(bk: Book, d: dict) -> None:
     ws.Range(f"J{s + 1}:J{last}").Formula2 = (f'=IF(COUNT(I${s}:I{s})<28,"",'
                                               f'STDEV.S(INDEX(I:I,MAX({s},ROW()-56)):I{s}))')
     ws.Range(f"K{s + 1}:K{last}").Formula2 = f'=IF(OR(J{s + 1}="",I{s + 1}=""),"",I{s + 1}/J{s + 1})'
-    ws.Range(f"L{first}:L{last}").Formula2 = (f'=IF(K{first}="",FALSE,AND(ABS(K{first})>=$C$8,O{first}>=$C$9,'
-                                              f'IF($C$7="margin_rate",ABS(I{first})>=0.015,TRUE)))')
+    ws.Range(f"L{first}:L{last}").Formula2 = (f'=IF(K{first}="","",IF(AND(ABS(K{first})>=$C$8,O{first}>=$C$9,'
+                                              f'IF($C$7="margin_rate",ABS(I{first})>=0.015,TRUE)),"ALERT",""))')
     ws.Range(f"M{s + 1}:M{last}").Formula2 = (f'=IF(J{s + 1}="","",IF($C$7="margin_rate",H{s + 1}-$C$8*J{s + 1},'
                                               f'H{s + 1}*(1-$C$8*J{s + 1})))')
     ws.Range(f"N{s + 1}:N{last}").Formula2 = (f'=IF(J{s + 1}="","",IF($C$7="margin_rate",H{s + 1}+$C$8*J{s + 1},'
@@ -756,7 +786,7 @@ def build_alerts(bk: Book, d: dict) -> None:
     nfmt(ws.Range(f"J{first}:J{last}"), "0.0%")
     nfmt(ws.Range(f"K{first}:K{last}"), "0.0")
     nfmt(ws.Range(f"O{first}:O{last}"), "0.0")
-    red_if(ws.Range(f"B{first}:L{last}"), f"$L{first}")
+    red_if(ws.Range(f"B{first}:L{last}"), f"$L{first}", equals="ALERT")
     ws.Columns("B:O").ColumnWidth = 12
     ws.Columns("B").ColumnWidth = 24
     ws.Columns("E").ColumnWidth = 16
@@ -933,7 +963,7 @@ def build_price_match(bk: Book, d: dict) -> None:
     calc = [
         ("3. Checks and decision", None, None, None),
         ("Evidence complete? (same room, same dates, screenshot, recent)",
-         '=AND(C8="Yes",C9="Yes",C10="Yes",C11<=C26)', "General",
+         '=IF(AND(C8="Yes",C9="Yes",C10="Yes",C11<=C26),"Yes","No")', "General",
          "Without evidence we ask for details before any price change."),
         ("+ Taxes the competitor left out (EUR)", '=IF(C16="No",C24*C6,0)', "0.00",
          "A price without taxes is not comparable: add them back."),
@@ -947,7 +977,7 @@ def build_price_match(bk: Book, d: dict) -> None:
         ("Maximum discount allowed (EUR)", "=MAX(C5-C35,0)", "0.00", "Selling price - floor price."),
         ("Price at the floor with the alternative supplier (EUR)", '=IF(C18="","",C18/(1-C21))', "0.00",
          "Can another supplier let us match?"),
-        ("DECISION", '=IF(NOT(C29),"Ask for details",IF(C34<=0,"Refuse",IF(C34<=C36,"Discount",'
+        ("DECISION", '=IF(C29="No","Ask for details",IF(C34<=0,"Refuse",IF(C34<=C36,"Discount",'
                      'IF(AND(C37<>"",N(C37)<=C33),"Switch supplier","Refuse"))))', "General", ""),
         ("Discount to grant (EUR)", '=IF(C38="Discount",ROUND(C34,2),0)', "0.00", "We match the like-for-like price, not more."),
         ("Margin rate after decision", '=IFERROR((C5-C39-IF(C38="Switch supplier",C18,C17))/(C5-C39),"")', "0.0%",
@@ -1087,7 +1117,7 @@ def build_pricing(bk: Book, d: dict) -> None:
                                   "[@[sales_eur]]*(1+dp)*(1+dv)-[@[cost_eur]]*(1+dv)-[@[margin_eur]])"),
         ("margin_effect_severe", "=LET(dp,[@[price_change_pct]],dv,$C$5*dp,"
                                  "[@[sales_eur]]*(1+dp)*(1+dv)-[@[cost_eur]]*(1+dv)-[@[margin_eur]])"),
-        ("below_floor_flag", "=[@[margin_rate]]<$C$6+0.01"),
+        ("below_floor_flag", '=IF([@[margin_rate]]<$C$6+0.01,"Hold","")'),
     ]:
         lo.ListColumns.Add().Name = name
         lo.ListColumns(name).DataBodyRange.Formula2 = f
@@ -1098,7 +1128,7 @@ def build_pricing(bk: Book, d: dict) -> None:
     nfmt(ws.Range(f"L{top + 1}:L{top + n}"), "+0.0%;-0.0%;0.0%")
     nfmt(ws.Range(f"N{top + 1}:N{top + n}"), "+0.00%;-0.00%;0.00%")
     nfmt(ws.Range(f"O{top + 1}:P{top + n}"), "+#,##0;-#,##0;0")
-    red_if(ws.Range(f"B{top + 1}:J{top + n}"), f"$Q{top + 1}", font_only=True)
+    red_if(ws.Range(f"B{top + 1}:J{top + n}"), f"$Q{top + 1}", font_only=True, equals="Hold")
     ws.Range("E4").Value = "Expected 90-day margin effect (EUR), prudent / severe elasticity"
     ws.Range("E4").Font.Bold = True
     ws.Range("E5").Formula2 = "=SUM(tblPricing[margin_effect_prudent])"
@@ -1127,15 +1157,15 @@ def build_dq(bk: Book, d: dict) -> None:
     lo.ListColumns.Add().Name = "sales_gap_pct"
     lo.ListColumns("sales_gap_pct").DataBodyRange.Formula2 = "=[@[sales_eur_raw]]/[@[sales_eur_clean]]-1"
     lo.ListColumns.Add().Name = "flag"
-    lo.ListColumns("flag").DataBodyRange.Formula2 = ("=OR(ABS([@[sales_gap_pct]])>0.02,"
-                                                     "ABS([@[margin_rate_raw]]-[@[margin_rate_clean]])>0.005)")
+    lo.ListColumns("flag").DataBodyRange.Formula2 = ('=IF(OR(ABS([@[sales_gap_pct]])>0.02,'
+                                                     'ABS([@[margin_rate_raw]]-[@[margin_rate_clean]])>0.005),"Check","")')
     n = len(rc)
     nfmt(ws.Range(f"B{top + 1}:B{top + n}"), "yyyy-mm-dd")
     nfmt(ws.Range(f"C{top + 1}:H{top + n}"), "#,##0")
     for col in ("E", "H"):
         nfmt(ws.Range(f"{col}{top + 1}:{col}{top + n}"), "0.0%")
     nfmt(ws.Range(f"I{top + 1}:I{top + n}"), "+0.0%;-0.0%;0.0%")
-    red_if(ws.Range(f"B{top + 1}:I{top + n}"), f"$J{top + 1}")
+    red_if(ws.Range(f"B{top + 1}:I{top + n}"), f"$J{top + 1}", equals="Check")
     ws.Columns("B:J").AutoFit()
     ws.Columns("G").ColumnWidth = 60
     ws.Columns("H").ColumnWidth = 60
@@ -1246,26 +1276,77 @@ def verify(bk: Book) -> list[str]:
     return msgs
 
 
-def snapshot(bk: Book, sheet: str, address: str, name: str) -> None:
-    """Export a picture of a sheet range (cells + charts) to docs/img/excel_<name>.png for the report."""
-    out = ROOT / "docs" / "img" / f"excel_{name}.png"
+def snapshot(bk: Book, sheet: str, address: str, name: str, scale: float = 2.0) -> None:
+    """Export a sharp picture of a sheet range (cells + charts) to docs/img/excel/<name>.png.
+
+    The range is copied as a vector picture (as printed), pasted into a temporary chart
+    `scale` times larger, then exported as PNG.
+    """
+    out = IMG_XL / f"{name}.png"
     out.parent.mkdir(parents=True, exist_ok=True)
     ws = bk.wb.Worksheets(sheet)
     ws.Activate()
     rng = ws.Range(address)
     for attempt in range(3):
         try:
-            rng.CopyPicture(1, 2)                       # as shown on screen, bitmap
-            co = ws.ChartObjects().Add(0, 0, rng.Width, rng.Height)
+            rng.CopyPicture(2, -4147)                   # as printed, vector picture
+            co = ws.ChartObjects().Add(0, 0, rng.Width * scale, rng.Height * scale)
             co.Activate()
             co.Chart.ChartArea.Format.Line.Visible = False
+            co.Chart.ChartArea.Format.Fill.ForeColor.RGB = C["white"]
             co.Chart.Paste()
+            pic = co.Chart.Shapes(co.Chart.Shapes.Count)
+            pic.LockAspectRatio = False
+            pic.Left, pic.Top = 0, 0
+            pic.Width, pic.Height = co.Chart.ChartArea.Width, co.Chart.ChartArea.Height
             co.Chart.Export(str(out), "PNG")
             co.Delete()
             return
-        except Exception:
+        except Exception as exc:
+            last = exc
             time.sleep(1.5)
-    print(f"snapshot failed: {sheet}!{address}")
+    print(f"snapshot failed: {sheet}!{address}: {last}")
+
+
+# Sheets exported to the PDF version of the workbook, with their print areas.
+PRINT = [("README", "$B$1:$C$26"), ("Cockpit", "$B$1:$L$121"), ("Pivots", "$B$1:$V$95"),
+         ("Alerts", "$B$1:$O$35"), ("Bridge", "$B$1:$Y$70"), ("PriceMatch_Calc", "$B$1:$D$49"),
+         ("PriceMatch_Log", "$B$1:$Q$45"), ("Pricing", "$B$1:$Q$29"), ("Data_Quality", "$B$1:$J$56")]
+# Pictures shown on the GitHub dashboard page (excel/README.md) and in the report.
+PICTURES = [("Cockpit", "B1:L47", "cockpit_kpis"), ("Cockpit", "B48:L89", "cockpit_segments"),
+            ("Cockpit", "B90:N120", "cockpit_trend"), ("Pivots", "B1:V32", "pivots"),
+            ("Pivots", "B70:L92", "pivots_fx"), ("Alerts", "B1:O35", "alerts"),
+            ("Bridge", "B1:Y26", "bridge"), ("PriceMatch_Calc", "B1:D49", "pricematch_calc"),
+            ("PriceMatch_Log", "B1:T20", "pricematch_log"), ("Pricing", "B1:Q29", "pricing"),
+            ("Data_Quality", "B1:J40", "data_quality")]
+
+
+def export_pdf(bk: Book) -> None:
+    """PDF version of the workbook for readers who do not open Excel files."""
+    from pypdf import PdfReader, PdfWriter
+    for name, area_ in PRINT:
+        ps = bk.wb.Worksheets(name).PageSetup
+        ps.PrintArea = area_
+        ps.Orientation = 2                              # landscape
+        ps.PaperSize = 9                                # A4
+        ps.Zoom = False
+        ps.FitToPagesWide = 1
+        ps.FitToPagesTall = False
+        for side in ("LeftMargin", "RightMargin", "TopMargin", "BottomMargin"):
+            setattr(ps, side, bk.xl.InchesToPoints(0.35))
+        ps.CenterFooter = "&8Simulated data (seed 42) - independent case study, not affiliated with Emerging Travel Group - &P/&N"
+    bk.wb.Worksheets([n for n, _ in PRINT]).Select()
+    tmp = TMP / "workbook.pdf"
+    bk.xl.ActiveSheet.ExportAsFixedFormat(0, str(tmp), 0, False, False)   # type PDF, standard quality, no doc properties
+    bk.wb.Worksheets("README").Select()
+    reader, writer = PdfReader(str(tmp)), PdfWriter()
+    for page in reader.pages:
+        writer.add_page(page)
+    writer.add_metadata({"/Title": "ETG commercial & pricing cockpit - Excel workbook (PDF view)", "/Author": "",
+                         "/Creator": "", "/Producer": ""})
+    with open(XLSX_PDF, "wb") as fh:
+        writer.write(fh)
+    print(f"workbook PDF: {len(reader.pages)} pages")
 
 
 def main() -> None:
@@ -1301,12 +1382,10 @@ def main() -> None:
         bk.xl.ScreenUpdating = True
         bk.xl.Visible = True              # pictures need the sheets to be rendered
         bk.xl.WindowState = -4140         # minimised
-        snapshot(bk, "Cockpit", "B1:L41", "cockpit")
-        snapshot(bk, "Alerts", "B4:N34", "alerts")
-        snapshot(bk, "Bridge", "H3:W22", "bridge")
-        snapshot(bk, "Pivots", "B1:V30", "pivots")
-        snapshot(bk, "PriceMatch_Calc", "B1:D48", "pricematch")
+        for sheet, address, name in PICTURES:
+            snapshot(bk, sheet, address, name)
         bk.xl.Visible = False
+        export_pdf(bk)
         # personal information: cleared on save
         for prop in ("Author", "Last author", "Company", "Manager"):
             try:

@@ -254,7 +254,8 @@ def page5():
     p_b = save(fig, "p5_bridge")
     matched = al["matched_event"].notna().sum()
     months = (pd.to_datetime(al["date"]).max() - pd.to_datetime(al["date"]).min()).days / 30.4
-    excel = {k: IMG / f"excel_{k}.png" for k in ("cockpit", "alerts", "pivots", "bridge", "pricematch")}
+    excel = {k: IMG / "excel" / f"{f}.png" for k, f in (("cockpit", "cockpit_kpis"), ("alerts", "alerts"),
+                                                        ("pivots", "pivots"), ("bridge", "bridge"))}
     return {"bridge": p_b, "br": br, "alerts": al, "matched": matched, "per_month": len(al) / months,
             "excel": {k: v for k, v in excel.items() if v.exists()}, "day": d[d["booking_date"] == "2026-09-15"].iloc[0]}
 
